@@ -10,12 +10,12 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_executable(
     nd
-    main.cpp
-    chartpanel.cpp
-    navpanel.cpp
-    tools.cpp
-    neptune_mgmt.cpp
-    main.rc
+    src/main.cpp
+    src/chartpanel.cpp
+    src/navpanel.cpp
+    src/tools.cpp
+    src/neptune_mgmt.cpp
+    src/main.rc
 )
 
 target_compile_definitions(

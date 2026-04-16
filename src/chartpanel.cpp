@@ -1,5 +1,7 @@
 #include <Windows.h>
 
+#include <cstdint>
+
 #include "defs.h"
 #include "tools.h"
 #include "neptune_mgmt.h"
@@ -15,6 +17,22 @@ void onCreate(HWND wnd, LPARAM lp) {
     SetWindowLongPtrA(wnd, GWLP_USERDATA, (LONG_PTR) ctx);
 }
 
+void onSize(HWND wnd, uint16_t width, uint16_t height) {
+    #if 0
+    auto ctx = getCtx(wnd);
+    RECT wndRect;
+    RECT clientRect;
+    GetWindowRect(wnd, &wndRect);
+    GetClientRect(wnd, &clientRect);
+
+    POINT topLeft;
+    topLeft.x = wndRect.left;
+    topLeft.y = wndRect.top;
+    ClientToScreen(wnd, &topLeft);
+    MoveWindow(ctx->chartViewerWnd, topLeft.x, topLeft.y, width, height, TRUE);
+    #endif
+}
+
 void onPaint(HWND wnd) {
     auto ctx = getCtx(wnd);
 
@@ -23,9 +41,13 @@ void onPaint(HWND wnd) {
     HDC viewerDC = GetDC(ctx->chartViewerWnd);
     unsigned long err = GetLastError();
     RECT client;
+    RECT cvClient;
 
     GetClientRect(wnd, &client);
-    BitBlt(paintDC, 0, 0, client.right + 1, client.bottom + 1, viewerDC, 0, 0, SRCCOPY);
+    GetClientRect(ctx->chartViewerWnd, &cvClient);
+    int centerX = cvClient.right >> 1;
+    int centerY = cvClient.bottom >> 1;
+    BitBlt(paintDC, 0, 0, client.right, client.bottom, viewerDC, centerX - (client.right >> 1), centerY - (client.bottom >> 1), SRCCOPY);
 
     ReleaseDC(ctx->chartViewerWnd, viewerDC);
     EndPaint(wnd, &ps);
@@ -43,6 +65,10 @@ void followChartViewer(HWND wnd) {
 
 LRESULT wndProc(HWND wnd, UINT msg, WPARAM wp, LPARAM lp) {
     switch (msg) {
+        case WM_SIZE:
+            onSize(wnd, LOWORD(lp), HIWORD(lp));
+            break;
+
         case WM_CREATE:
             onCreate(wnd, lp);
             break;
