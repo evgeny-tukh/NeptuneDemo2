@@ -130,9 +130,14 @@ int WinMain(
     ctx.inst = inst;
     ctx.chartViewer = runChartViewer(ctx);
 
-    auto mainWnd = CreateWindowA(clsName, "Neptune Demo", WS_OVERLAPPEDWINDOW|WS_VISIBLE, 0, 0, 800, 600, HWND_DESKTOP, NULL, inst, &ctx);
+    HDC screenDC = GetDC(HWND_DESKTOP);
+    int screenWidth = GetDeviceCaps(screenDC, HORZRES);
+    int screenHeight = GetDeviceCaps(screenDC, VERTRES);
+    ReleaseDC(HWND_DESKTOP, screenDC);
 
-    ShowWindow(mainWnd, SW_SHOW);
+    auto mainWnd = CreateWindowA(clsName, "Neptune Demo", WS_OVERLAPPEDWINDOW|WS_VISIBLE, 0, 0, screenWidth, screenHeight, HWND_DESKTOP, NULL, inst, &ctx);
+
+    ShowWindow(mainWnd, SW_SHOWMAXIMIZED);
     UpdateWindow(mainWnd);
     InvalidateRect(mainWnd, NULL, TRUE);
 
