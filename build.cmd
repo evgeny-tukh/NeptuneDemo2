@@ -14,5 +14,6 @@ if not exist bin (
 cd build
 
 %cmake% ..
-%msbuild% NeptuneDemo.sln -target:Build -property:WarningLevel=2;OutDir=..\bin\ -verbosity:q -maxCpuCount:4 -p:Configuration=Debug
+%cmake% --build .
+::%msbuild% NeptuneDemo.sln -target:Build -property:WarningLevel=2;OutDir=..\bin\ -verbosity:q -maxCpuCount:4 -p:Configuration=Debug
 
