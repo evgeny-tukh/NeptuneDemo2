@@ -1,0 +1,27 @@
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+
+#ifndef APSTUDIO_INVOKED
+#endif
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#undef APSTUDIO_READONLY_SYMBOLS
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+
+IDR_MAINMENU MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "E&xit\tAlt-F4",               IDM_EXIT
+    END
+    POPUP "&Options"
+    BEGIN
+        MENUITEM "&Settings...",                IDM_SETTINGS
+    END
+END
+
+#endif    // English (United States) resources
